@@ -30,7 +30,9 @@ load_dotenv(BASE_DIR / ".env")
 from main import MODEL_NAME, PROFILE_NAME, client, conversation_history  # noqa: E402
 
 STATIC_DIR = BASE_DIR / "static"
-HOST = "127.0.0.1"
+# Bind to 0.0.0.0 when running on Render (set as an env var there) so the
+# service is reachable. Locally the default stays 127.0.0.1.
+HOST = os.getenv("HOST", "127.0.0.1")
 PORT = int(os.getenv("PORT", "8000"))
 
 # The shared conversation history is guarded by a lock because requests are

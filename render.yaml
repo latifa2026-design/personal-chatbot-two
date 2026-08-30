@@ -1,0 +1,26 @@
+# ---------------------------------------------------------------------------
+# Render Blueprint for the personal chatbot web service.
+# Reference: https://render.com/docs/blueprint-spec
+#
+# Deployed with the Render CLI:  render services create ...  (see README/notes)
+# You can also apply this file from the Render dashboard (New -> Blueprint).
+# ---------------------------------------------------------------------------
+services:
+  - type: web
+    name: personal-chatbot
+    runtime: python
+    repo: https://github.com/latifa2026-design/personal-chatbot
+    branch: main
+    plan: free
+    region: singapore
+    autoDeploy: true
+    buildCommand: pip install -r requirements.txt
+    startCommand: python web_server.py
+    envVars:
+      - key: HOST
+        value: "0.0.0.0"
+      # The Groq API key is intentionally NOT stored in this file.
+      # It is set as a secret (sync: false) in the service's environment
+      # variables on Render so it is never committed to git.
+      - key: API_KEY
+        sync: false
