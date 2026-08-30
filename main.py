@@ -7,8 +7,19 @@ Groq Chat Completions API to generate responses.
 
 import os
 import threading
-import tkinter as tk
-from tkinter import scrolledtext
+
+# tkinter is only needed for the desktop GUI. Import it guarded so the web
+# server (web_server.py) can import this module on headless hosts like Render,
+# which have no Tk build ("No module named '_tkinter'").
+try:
+    import tkinter as tk
+    from tkinter import scrolledtext
+
+    TK_AVAILABLE = True
+except ImportError:  # pragma: no cover - headless environments only
+    tk = None  # type: ignore[assignment]
+    scrolledtext = None  # type: ignore[assignment]
+    TK_AVAILABLE = False
 
 from dotenv import load_dotenv
 from groq import Groq
@@ -187,6 +198,12 @@ class ChatbotGUI:
 
 
 def main():
+    if not TK_AVAILABLE:
+        print(
+            "Tkinter is not available in this environment.\n"
+            "Start the web version instead with:  python web_server.py"
+        )
+        return
     root = tk.Tk()
     ChatbotGUI(root)
     root.mainloop()
