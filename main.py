@@ -54,8 +54,16 @@ Education:
 Current position: Professor and Head, Department of Physiology,
 Universal Medical College, Dhaka, Bangladesh
 Experience: More than 20 years of teaching experience in Physiology
-Professional role: Vice President (VP), Dhaka Division,
-Bangladesh Society of Physiologists (BSP)
+Professional roles:
+- Vice President (VP), Dhaka Division,
+  Bangladesh Society of Physiologists (BSP)
+- Associate Editor, Journal of the Bangladesh Society of Physiologists (JBSP)
+- Former Executive Editor, Prime Medical Journal (served for about 5-6 years)
+Additional duties:
+- Coordinator, Medical Education Unit (MEU), Universal Medical College
+Research & publications:
+- Published research articles in national and international journals
+- Her published articles have received citations from other researchers
 Current goal: Expanding teaching skills by learning and applying AI in
 medical education.
 """.strip()
