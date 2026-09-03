@@ -32,6 +32,7 @@ from main import (
     PROFILE_NAME,
     PUBLICATIONS,
     MEU_ROLE,
+    BSP_ROLE,
     client,
     conversation_history,
 )  # noqa: E402
@@ -71,6 +72,10 @@ class ChatRequestHandler(SimpleHTTPRequestHandler):
         if self.path == "/api/meu":
             # MEU role & activities (Member Secretary & Coordinator, UMC)
             self._send_json(MEU_ROLE)
+            return
+        if self.path == "/api/bsp":
+            # BSP role & CME training (Vice President, Dhaka Division)
+            self._send_json(BSP_ROLE)
             return
         super().do_GET()
 
@@ -137,7 +142,7 @@ def main():
     print(f"  {PROFILE_NAME} — Web Chatbot")
     print(f"  Model: {MODEL_NAME}")
     print(f"  Open in your browser:  http://{HOST}:{PORT}")
-    print("  API: /api/chat  /api/history  /api/publications  /api/meu")
+    print("  API: /api/chat  /api/history  /api/publications  /api/meu  /api/bsp")
     print("  Press Ctrl+C to stop the server.")
     print("=" * 64)
     try:

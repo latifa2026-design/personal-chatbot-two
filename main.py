@@ -118,6 +118,8 @@ MEU_ROLE = {
         "learning methods for UMC faculty.",
         "Conducts training sessions on modern assessment techniques such as "
         "OSPE/OSCE, MCQs and structured viva-voce.",
+        "Regularly trains UMC teachers on teaching methodology and "
+        "assessment, drawing on her CME training under DGME.",
         "Arranges medical-education seminars, CMEs and symposia on topics "
         "such as communication skills, ethics and student feedback.",
         "Facilitates orientation and mentoring of newly appointed faculty "
@@ -127,6 +129,33 @@ MEU_ROLE = {
         "Encourages and coordinates educational/action research by faculty "
         "and prepares the MEU annual report.",
     ],
+}
+
+# ---------------------------------------------------------------------------
+# BSP (Bangladesh Society of Physiologists) role — Vice President, Dhaka Div.
+# ---------------------------------------------------------------------------
+BSP_ROLE = {
+    "title": "Vice President, Dhaka Division",
+    "society": "Bangladesh Society of Physiologists (BSP) Executive Committee",
+    "summary": (
+        "Prof. Dr. Latifa Afrin Dill Naher serves as the Vice President of the "
+        "Dhaka Division on the Executive Committee of the Bangladesh Society "
+        "of Physiologists (BSP)."
+    ),
+    "activities": [
+        "Involved in upgrading the Operational Manual of Physiology so that "
+        "students remain engaged in academic activities and build their "
+        "skills as professionals.",
+    ],
+    "training": {
+        "program": "Teaching methodology and assessment",
+        "organizer": "CME under the Directorate General of Medical Education (DGME)",
+        "outcome": (
+            "In the light of this CME training, she regularly conducts "
+            "training sessions on teaching methodology and assessment for the "
+            "teachers of Universal Medical College (UMC)."
+        ),
+    },
 }
 
 
@@ -147,6 +176,16 @@ def format_publications(publications=None):
 
 PUBLICATIONS_TEXT = format_publications()
 MEU_TEXT = "\n".join(f"- {activity}" for activity in MEU_ROLE["activities"])
+BSP_TEXT = (
+    f"Role: {BSP_ROLE['title']} - {BSP_ROLE['society']}\n"
+    + "\n".join(f"- {activity}" for activity in BSP_ROLE["activities"])
+    + "\nTraining: "
+    + BSP_ROLE["training"]["program"]
+    + " ("
+    + BSP_ROLE["training"]["organizer"]
+    + "). "
+    + BSP_ROLE["training"]["outcome"]
+)
 
 PROFILE_BIO = """
 Name: Prof. Dr. Latifa Afrin Dill Naher
@@ -157,10 +196,18 @@ Current position: Professor and Head, Department of Physiology,
 Universal Medical College, Dhaka, Bangladesh
 Experience: More than 20 years of teaching experience in Physiology
 Professional roles:
-- Vice President (VP), Dhaka Division,
+- Vice President (VP), Dhaka Division, Executive Committee,
   Bangladesh Society of Physiologists (BSP)
+  * Involved in upgrading the Operational Manual of Physiology so that
+    students stay engaged in academic activities and build their skills
+    as professionals
 - Associate Editor, Journal of the Bangladesh Society of Physiologists (JBSP)
 - Former Executive Editor, Prime Medical Journal (served for about 5-6 years)
+Training:
+- Completed CME training (under the Directorate General of Medical
+  Education, DGME) on "Teaching methodology and assessment"
+- In the light of that training, she regularly conducts training sessions
+  for the teachers of Universal Medical College (UMC)
 Additional duties:
 - Member Secretary & Coordinator, Medical Education Unit (MEU),
   Universal Medical College (UMC), Dhaka
@@ -171,6 +218,8 @@ Additional duties:
     learning methods
   * Conducts training on assessment techniques (OSPE/OSCE, MCQs,
     structured viva-voce)
+  * Regularly trains UMC teachers on teaching methodology and assessment
+    (based on her CME training under DGME)
   * Arranges medical-education seminars, CMEs and symposia for faculty
   * Supports new-faculty orientation, mentoring, and educational research
 Research & publications (journal name with volume number):
@@ -215,19 +264,31 @@ Your responsibilities:
    state the journal name AND its volume number (e.g. "Journal of the
    Bangladesh Society of Physiologists, Vol. 5, No. 1"), together with the
    issue, page range, year and DOI when relevant.
-7. MEU ROLE: When asked about her Medical Education Unit duties or
+7. BSP ROLE: When asked about her work with the Bangladesh Society of
+   Physiologists (BSP), say she is the Vice President of the Dhaka Division
+   on the BSP Executive Committee and involved in upgrading the Operational
+   Manual of Physiology to keep students engaged in academic activities and
+   build their professional skills.
+8. CME TRAINING: When asked about her training or faculty development,
+   mention the CME training she completed on "Teaching methodology and
+   assessment" under the Directorate General of Medical Education (DGME),
+   and that she regularly trains UMC teachers based on that training.
+9. MEU ROLE: When asked about her Medical Education Unit duties or
    activities, mention that she is the Member Secretary & Coordinator of
    the Medical Education Unit (MEU) at Universal Medical College (UMC),
    Dhaka, and describe only the activities listed below.
-8. NEVER invent or guess article titles, journal names, volume numbers,
-   issue numbers, page ranges, years or DOIs that are not present in the
-   lists below.
+10. NEVER invent or guess article titles, journal names, volume numbers,
+    issue numbers, page ranges, years, DOIs, trainings or roles that are
+    not present in the lists below.
 
 --- Research publications (journal name with volume number) ---
 {PUBLICATIONS_TEXT}
 
 --- MEU activities (Member Secretary & Coordinator, UMC) ---
 {MEU_TEXT}
+
+--- BSP role & CME training (Vice President, Dhaka Division) ---
+{BSP_TEXT}
 """.strip()
 
 # Conversation history sent to the model on every request so it has context.
@@ -294,10 +355,10 @@ class ChatbotGUI:
         self._append_message(
             "Bot",
             "Welcome! I am the AI teaching assistant for Prof. Dr. Latifa Afrin "
-            "Dill Naher. Ask me a Physiology question, a teaching-related "
-            "question, her research publications (journal name with volume "
-            "number), or about her activities as Member Secretary & "
-            "Coordinator of the MEU at UMC.",
+            "Dill Naher. Ask me a Physiology question, her research "
+            "publications (journal name with volume number), her activities as "
+            "Vice President of the BSP Dhaka Division, or her MEU activities "
+            "and teacher training at UMC.",
             "bot",
         )
 

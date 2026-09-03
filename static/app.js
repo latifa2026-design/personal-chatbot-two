@@ -11,8 +11,10 @@ const panelToggle = document.getElementById("panel-toggle");
 const panelBody = document.getElementById("panel-body");
 const tabPubBtn = document.getElementById("tab-pub-btn");
 const tabMeuBtn = document.getElementById("tab-meu-btn");
+const tabBspBtn = document.getElementById("tab-bsp-btn");
 const tabPublications = document.getElementById("tab-publications");
 const tabMeu = document.getElementById("tab-meu");
+const tabBsp = document.getElementById("tab-bsp");
 
 /** Append a chat bubble to the message list and keep it scrolled down. */
 function addMessage(role, text) {
@@ -103,18 +105,25 @@ function initPanelToggle() {
     });
 }
 
-/** Switch between the Publications and MEU Activity tabs. */
+/** Switch between the Publications, MEU and BSP tabs. */
 function initTabs() {
-    const show = (pubActive) => {
-        tabPublications.hidden = !pubActive;
-        tabMeu.hidden = pubActive;
-        tabPubBtn.classList.toggle("active", pubActive);
-        tabMeuBtn.classList.toggle("active", !pubActive);
-        tabPubBtn.setAttribute("aria-selected", String(pubActive));
-        tabMeuBtn.setAttribute("aria-selected", String(!pubActive));
+    const show = (which) => {
+        const isPub = which === "pub";
+        const isMeu = which === "meu";
+        const isBsp = which === "bsp";
+        tabPublications.hidden = !isPub;
+        tabMeu.hidden = !isMeu;
+        tabBsp.hidden = !isBsp;
+        tabPubBtn.classList.toggle("active", isPub);
+        tabMeuBtn.classList.toggle("active", isMeu);
+        tabBspBtn.classList.toggle("active", isBsp);
+        tabPubBtn.setAttribute("aria-selected", String(isPub));
+        tabMeuBtn.setAttribute("aria-selected", String(isMeu));
+        tabBspBtn.setAttribute("aria-selected", String(isBsp));
     };
-    tabPubBtn.addEventListener("click", () => show(true));
-    tabMeuBtn.addEventListener("click", () => show(false));
+    tabPubBtn.addEventListener("click", () => show("pub"));
+    tabMeuBtn.addEventListener("click", () => show("meu"));
+    tabBspBtn.addEventListener("click", () => show("bsp"));
 }
 
 /** Render each publication as a small card with journal + volume details. */
@@ -173,20 +182,66 @@ function renderMeu(meu) {
     tabMeu.append(role, summary, list);
 }
 
-/** Load the publications and MEU data from the API and render them. */
+/** Render the BSP role summary, activities and CME training. */
+function renderBsp(bsp) {
+    tabBsp.innerHTML = "";
+
+    const role = document.createElement("p");
+    role.className = "meu-role";
+    role.textContent = `${bsp.title} · ${bsp.society}`;
+
+    const summary = document.createElement("p");
+    summary.className = "meu-summary";
+    summary.textContent = bsp.summary;
+
+    const list = document.createElement("ul");
+    list.className = "meu-list";
+    (bsp.activities || []).forEach((activity) => {
+        const li = document.createElement("li");
+        li.textContent = activity;
+        list.appendChild(li);
+    });
+
+    tabBsp.append(role, summary, list);
+
+    if (bsp.training) {
+        const trainingTitle = document.createElement("p");
+        trainingTitle.className = "meu-role training-title";
+        trainingTitle.textContent = "🎓 CME Training & Faculty Development";
+
+        const trainingList = document.createElement("ul");
+        trainingList.className = "meu-list";
+        const t1 = document.createElement("li");
+        t1.textContent =
+            `Completed “${bsp.training.program}” training (${bsp.training.organizer}).`;
+        const t2 = document.createElement("li");
+        t2.textContent = bsp.training.outcome;
+        trainingList.append(t1, t2);
+
+        tabBsp.append(trainingTitle, trainingList);
+    }
+}
+
+/** Load the publications, MEU and BSP data from the API and render them. */
 async function loadKnowledge() {
     try {
-        const [pubRes, meuRes] = await Promise.all([
+        const [pubRes, meuRes, bspRes] = await Promise.all([
             fetch("/api/publications"),
             fetch("/api/meu"),
+            fetch("/api/bsp"),
         ]);
         const pubData = await pubRes.json().catch(() => ({ publications: [] }));
         const meuData = await meuRes.json().catch(() => ({ activities: [] }));
+        const bspData = await bspRes
+            .json()
+            .catch(() => ({ activities: [], training: null }));
         renderPublications(pubData.publications || []);
         renderMeu(meuData);
+        renderBsp(bspData);
     } catch {
         tabPublications.textContent = "Publications could not be loaded.";
         tabMeu.textContent = "MEU activities could not be loaded.";
+        tabBsp.textContent = "BSP role could not be loaded.";
     }
 }
 
@@ -211,10 +266,10 @@ chatForm.addEventListener("submit", (event) => {
 addMessage(
     "bot",
     "Welcome! I am the AI teaching assistant for Prof. Dr. Latifa Afrin " +
-        "Dill Naher. Ask me a Physiology question, a teaching-related " +
-        "question, her research publications (journal name with volume " +
-        "number), or about her activities as Member Secretary & " +
-        "Coordinator of the MEU at UMC."
+        "Dill Naher. Ask me a Physiology question, her research " +
+        "publications (journal name with volume number), her activities as " +
+        "Vice President of the BSP Dhaka Division, or her MEU activities " +
+        "and teacher training at UMC."
 );
 loadHistory();
 initPanelToggle();

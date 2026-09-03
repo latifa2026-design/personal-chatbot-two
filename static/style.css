@@ -328,6 +328,10 @@ body {
     color: var(--navy);
 }
 
+.meu-role.training-title {
+    margin-top: 12px;
+}
+
 /* ---------- Suggestion chips ---------- */
 .suggestions {
     flex-shrink: 0;
