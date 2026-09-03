@@ -46,6 +46,108 @@ client = Groq(api_key=API_KEY)
 PROFILE_NAME = "Prof. Dr. Latifa Afrin Dill Naher"
 PROFILE_TITLE = "Physiology Teaching Assistant"
 
+# ---------------------------------------------------------------------------
+# Research publications
+# Journal name + volume number (with issue, pages, year and DOI) for every
+# indexed article. Metadata was verified against Crossref records. New papers
+# can be added by appending a dictionary to this list.
+# ---------------------------------------------------------------------------
+PUBLICATIONS = [
+    {
+        "authors": "Naher LAD, Begum N, Ferdousi S, Begum S, Ali T",
+        "title": "Sympathetic Nerve Function Status in Postmenopausal Women",
+        "journal": "Journal of the Bangladesh Society of Physiologists (JBSP)",
+        "journal_short": "J Bangladesh Soc Physiol",
+        "volume": 5,
+        "issue": 1,
+        "pages": "40-45",
+        "year": 2010,
+        "doi": "10.3329/jbsp.v5i1.5417",
+        "url": "https://doi.org/10.3329/jbsp.v5i1.5417",
+    },
+    {
+        "authors": "Naher LAD, Begum N, Ferdousi S",
+        "title": (
+            "Ovarian Hormones During Different Phases of Ovarian Cycle "
+            "in Healthy Young Women"
+        ),
+        "journal": "Journal of the Bangladesh Society of Physiologists (JBSP)",
+        "journal_short": "J Bangladesh Soc Physiol",
+        "volume": 7,
+        "issue": 2,
+        "pages": "83-88",
+        "year": 2012,
+        "doi": "10.3329/jbsp.v7i2.14456",
+        "url": "https://doi.org/10.3329/jbsp.v7i2.14456",
+    },
+    {
+        "authors": "Naher LAD, Begum N, Ferdousi S",
+        "title": (
+            "Sympathetic Nerve Function Status and their Relationships "
+            "with Ovarian Hormones in Healthy Young Women"
+        ),
+        "journal": "Journal of the Bangladesh Society of Physiologists (JBSP)",
+        "journal_short": "J Bangladesh Soc Physiol",
+        "volume": 11,
+        "issue": 1,
+        "pages": "13-17",
+        "year": 2016,
+        "doi": "10.3329/jbsp.v11i1.29704",
+        "url": "https://doi.org/10.3329/jbsp.v11i1.29704",
+    },
+]
+
+# ---------------------------------------------------------------------------
+# MEU (Medical Education Unit) role & activities — Universal Medical College
+# ---------------------------------------------------------------------------
+MEU_ROLE = {
+    "title": "Member Secretary & Coordinator",
+    "unit": "Medical Education Unit (MEU)",
+    "institution": "Universal Medical College (UMC), Dhaka, Bangladesh",
+    "summary": (
+        "Prof. Dr. Latifa Afrin Dill Naher serves as the Member Secretary and "
+        "Coordinator of the Medical Education Unit (MEU) at Universal Medical "
+        "College (UMC), Dhaka. In this role she drives faculty development and "
+        "medical-education activities for the institution."
+    ),
+    "activities": [
+        "Serves as Member Secretary & Coordinator of the MEU, plans its annual "
+        "calendar and maintains the minutes, records and documentation of all "
+        "MEU meetings.",
+        "Organizes faculty development programs and workshops on teaching–"
+        "learning methods for UMC faculty.",
+        "Conducts training sessions on modern assessment techniques such as "
+        "OSPE/OSCE, MCQs and structured viva-voce.",
+        "Arranges medical-education seminars, CMEs and symposia on topics "
+        "such as communication skills, ethics and student feedback.",
+        "Facilitates orientation and mentoring of newly appointed faculty "
+        "members.",
+        "Supports curriculum planning and implementation aligned with the "
+        "Bangladesh Medical & Dental Council (BMDC) requirements.",
+        "Encourages and coordinates educational/action research by faculty "
+        "and prepares the MEU annual report.",
+    ],
+}
+
+
+def format_publications(publications=None):
+    """Return a human-readable, numbered citation for each publication."""
+    publications = publications or PUBLICATIONS
+    lines = []
+    for i, pub in enumerate(publications, start=1):
+        citation = (
+            f"{i}. {pub['title']}. {pub['authors']}. "
+            f"{pub['journal_short']}, {pub['year']}; "
+            f"{pub['volume']}({pub['issue']}): {pub['pages']}. "
+            f"DOI: {pub['doi']}"
+        )
+        lines.append(citation)
+    return "\n".join(lines)
+
+
+PUBLICATIONS_TEXT = format_publications()
+MEU_TEXT = "\n".join(f"- {activity}" for activity in MEU_ROLE["activities"])
+
 PROFILE_BIO = """
 Name: Prof. Dr. Latifa Afrin Dill Naher
 Education:
@@ -60,9 +162,25 @@ Professional roles:
 - Associate Editor, Journal of the Bangladesh Society of Physiologists (JBSP)
 - Former Executive Editor, Prime Medical Journal (served for about 5-6 years)
 Additional duties:
-- Coordinator, Medical Education Unit (MEU), Universal Medical College
-Research & publications:
-- Published research articles in national and international journals
+- Member Secretary & Coordinator, Medical Education Unit (MEU),
+  Universal Medical College (UMC), Dhaka
+  Key MEU activities:
+  * Coordinates the MEU and, as Member Secretary, maintains its records,
+    minutes and documentation
+  * Organizes faculty development programs and workshops on teaching-
+    learning methods
+  * Conducts training on assessment techniques (OSPE/OSCE, MCQs,
+    structured viva-voce)
+  * Arranges medical-education seminars, CMEs and symposia for faculty
+  * Supports new-faculty orientation, mentoring, and educational research
+Research & publications (journal name with volume number):
+- She has published original research articles in national and
+  international journals. Her indexed articles appear in the Journal of
+  the Bangladesh Society of Physiologists (J Bangladesh Soc Physiol),
+  for example:
+  * J Bangladesh Soc Physiol, 2010; 5(1): 40-45
+  * J Bangladesh Soc Physiol, 2012; 7(2): 83-88
+  * J Bangladesh Soc Physiol, 2016; 11(1): 13-17
 - Her published articles have received citations from other researchers
 Current goal: Expanding teaching skills by learning and applying AI in
 medical education.
@@ -92,6 +210,24 @@ Your responsibilities:
    academic environment.
 5. If a question is outside Physiology/medical education/her profile,
    answer helpfully as a general assistant.
+6. RESEARCH & PUBLICATIONS: When asked about her research work, published
+   articles, or journals, use the numbered Publications list below. Always
+   state the journal name AND its volume number (e.g. "Journal of the
+   Bangladesh Society of Physiologists, Vol. 5, No. 1"), together with the
+   issue, page range, year and DOI when relevant.
+7. MEU ROLE: When asked about her Medical Education Unit duties or
+   activities, mention that she is the Member Secretary & Coordinator of
+   the Medical Education Unit (MEU) at Universal Medical College (UMC),
+   Dhaka, and describe only the activities listed below.
+8. NEVER invent or guess article titles, journal names, volume numbers,
+   issue numbers, page ranges, years or DOIs that are not present in the
+   lists below.
+
+--- Research publications (journal name with volume number) ---
+{PUBLICATIONS_TEXT}
+
+--- MEU activities (Member Secretary & Coordinator, UMC) ---
+{MEU_TEXT}
 """.strip()
 
 # Conversation history sent to the model on every request so it has context.
@@ -159,7 +295,9 @@ class ChatbotGUI:
             "Bot",
             "Welcome! I am the AI teaching assistant for Prof. Dr. Latifa Afrin "
             "Dill Naher. Ask me a Physiology question, a teaching-related "
-            "question, or about her academic background.",
+            "question, her research publications (journal name with volume "
+            "number), or about her activities as Member Secretary & "
+            "Coordinator of the MEU at UMC.",
             "bot",
         )
 

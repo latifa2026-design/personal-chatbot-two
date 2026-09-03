@@ -17,7 +17,34 @@
         </div>
     </header>
 
+    <section id="knowledge-panel" class="knowledge-panel">
+        <div class="panel-bar">
+            <span class="panel-title">📚 Research Publications &amp; MEU Activities</span>
+            <button id="panel-toggle" type="button" aria-expanded="false" aria-controls="panel-body">
+                Show details ▾
+            </button>
+        </div>
+        <div id="panel-body" class="panel-body" hidden>
+            <div class="tabs" role="tablist">
+                <button id="tab-pub-btn" class="tab-btn active" role="tab" aria-selected="true">
+                    📄 Publications (journal &amp; volume)
+                </button>
+                <button id="tab-meu-btn" class="tab-btn" role="tab" aria-selected="false">
+                    🏫 MEU Activities
+                </button>
+            </div>
+            <div id="tab-publications" class="tab-content" role="tabpanel"></div>
+            <div id="tab-meu" class="tab-content" role="tabpanel" hidden></div>
+        </div>
+    </section>
+
     <main id="chat-area" class="chat-area" aria-live="polite"></main>
+
+    <div id="suggestions" class="suggestions">
+        <button class="chip" data-question="List her research publications with the journal name and volume number.">📄 Publications &amp; volume</button>
+        <button class="chip" data-question="What are her activities as Member Secretary and Coordinator of the MEU at UMC?">🏫 MEU activities</button>
+        <button class="chip" data-question="Tell me about her research background in Physiology.">🔬 Research background</button>
+    </div>
 
     <form id="chat-form" class="input-bar" autocomplete="off">
         <label for="user-input" class="sr-only">Type your message</label>

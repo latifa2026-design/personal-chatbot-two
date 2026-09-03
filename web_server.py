@@ -27,7 +27,14 @@ load_dotenv(BASE_DIR / ".env")
 # Reuse the chatbot's Groq client, model, persona and conversation history.
 # Importing main.py does NOT open the Tkinter GUI — that only happens when
 # main.py is run directly.
-from main import MODEL_NAME, PROFILE_NAME, client, conversation_history  # noqa: E402
+from main import (
+    MODEL_NAME,
+    PROFILE_NAME,
+    PUBLICATIONS,
+    MEU_ROLE,
+    client,
+    conversation_history,
+)  # noqa: E402
 
 STATIC_DIR = BASE_DIR / "static"
 # Bind to 0.0.0.0 when running on Render (set as an env var there) so the
@@ -56,6 +63,14 @@ class ChatRequestHandler(SimpleHTTPRequestHandler):
                     if m["role"] != "system"
                 ]
             self._send_json({"history": history})
+            return
+        if self.path == "/api/publications":
+            # Research publications - journal name with volume number etc.
+            self._send_json({"publications": PUBLICATIONS})
+            return
+        if self.path == "/api/meu":
+            # MEU role & activities (Member Secretary & Coordinator, UMC)
+            self._send_json(MEU_ROLE)
             return
         super().do_GET()
 
@@ -122,6 +137,7 @@ def main():
     print(f"  {PROFILE_NAME} — Web Chatbot")
     print(f"  Model: {MODEL_NAME}")
     print(f"  Open in your browser:  http://{HOST}:{PORT}")
+    print("  API: /api/chat  /api/history  /api/publications  /api/meu")
     print("  Press Ctrl+C to stop the server.")
     print("=" * 64)
     try:
