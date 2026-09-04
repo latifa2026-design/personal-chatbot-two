@@ -2,14 +2,14 @@
 # Render Blueprint for the personal chatbot web service.
 # Reference: https://render.com/docs/blueprint-spec
 #
-# Deployed with the Render CLI:  render services create ...  (see README/notes)
+# Deployed with the Render CLI:  render blueprint apply --file render.yaml
 # You can also apply this file from the Render dashboard (New -> Blueprint).
 # ---------------------------------------------------------------------------
 services:
   - type: web
     name: personal-chatbot
     runtime: python
-    repo: https://github.com/latifa2026-design/personal-chatbot
+    repo: https://github.com/latifa2026-design/personal-chatbot-two
     branch: main
     plan: free
     region: singapore
